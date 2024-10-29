@@ -3,6 +3,8 @@ import { NextPage } from "next";
 import { redirect, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
+import { getNotionListPath } from "@/lib/notion/routing";
+
 import { setNotionTokenInCookies } from "./services";
 
 const NotionAuthRedirect: NextPage = () => {
@@ -13,7 +15,7 @@ const NotionAuthRedirect: NextPage = () => {
     void (async () => {
       if (code === null) return;
       await setNotionTokenInCookies(code);
-      redirect("/");
+      redirect(getNotionListPath());
     })();
   }, [code]);
 
