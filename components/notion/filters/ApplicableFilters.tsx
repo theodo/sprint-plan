@@ -51,22 +51,23 @@ export const ApplicableFilters: React.FC<{
           <CommandEmpty>No property found.</CommandEmpty>
           <CommandGroup>
             {applicableFilters.map((filter) => (
-              <FilterValuesSelect
-                key={filter.property}
-                property={filter.property}
-                options={filter.possibleValues}
-                appliedFilters={
-                  appliedFilters.find((_af) => _af.property === filter.property)
-                    ?.values ?? []
-                }
-                updateAppliedFilters={(values) =>
-                  updateAppliedFilters(filter.property, values)
-                }
-              >
-                <CommandItem key={filter.property}>
+              <CommandItem key={filter.property}>
+                <FilterValuesSelect
+                  key={filter.property}
+                  property={filter.property}
+                  options={filter.possibleValues}
+                  appliedFilters={
+                    appliedFilters.find(
+                      (_af) => _af.property === filter.property,
+                    )?.values ?? []
+                  }
+                  updateAppliedFilters={(values) =>
+                    updateAppliedFilters(filter.property, values)
+                  }
+                >
                   {filter.property}
-                </CommandItem>
-              </FilterValuesSelect>
+                </FilterValuesSelect>
+              </CommandItem>
             ))}
           </CommandGroup>
         </Command>
