@@ -51,7 +51,7 @@ export const ApplicableFilters: React.FC<{
           <CommandEmpty>No property found.</CommandEmpty>
           <CommandGroup>
             {applicableFilters.map((filter) => (
-              <CommandItem key={filter.property}>
+              <CommandItem key={filter.property} className="p-0">
                 <FilterValuesSelect
                   key={filter.property}
                   property={filter.property}

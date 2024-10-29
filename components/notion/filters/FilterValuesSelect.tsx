@@ -29,37 +29,42 @@ export const FilterValuesSelect: React.FC<{
   children: React.ReactNode;
 }> = ({ options, appliedFilters, updateAppliedFilters, children }) => {
   const [open, setOpen] = useState(false);
+  const [selectedValues, setSelectedValues] =
+    useState<string[]>(appliedFilters);
 
   const toggleValue = (item: string) => {
-    if (appliedFilters.indexOf(item) === -1) {
-      updateAppliedFilters([...appliedFilters, item]);
+    if (selectedValues.indexOf(item) === -1) {
+      setSelectedValues([...selectedValues, item]);
 
       return;
     }
 
-    updateAppliedFilters(appliedFilters.filter((filter) => filter !== item));
+    setSelectedValues(selectedValues.filter((filter) => filter !== item));
   };
 
   const removeItem = (item: string) => {
-    updateAppliedFilters(appliedFilters.filter((filter) => filter !== item));
+    setSelectedValues(selectedValues.filter((filter) => filter !== item));
   };
 
-  const handleToggleDialog = (_open: boolean) => {
-    setOpen(_open);
+  const confirmFilterValues = () => {
+    updateAppliedFilters(selectedValues);
+    setOpen(false);
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleToggleDialog}>
-      <DialogTrigger>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <p className="w-full h-full px-2 py-1.5">{children}</p>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Select Items</DialogTitle>
+          <DialogTitle>Select Values</DialogTitle>
           <DialogDescription>
-            Choose multiple items from the list below.
+            Choose multiple values from the list below.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-wrap gap-2 py-4">
-          {appliedFilters.map((item) => (
+          {selectedValues.map((item) => (
             <Badge key={item} variant="secondary" className="text-sm">
               {item}
               <Button
@@ -81,7 +86,7 @@ export const FilterValuesSelect: React.FC<{
               <CommandItem key={item} onSelect={() => toggleValue(item)}>
                 <Check
                   className={`mr-2 h-4 w-4 ${
-                    appliedFilters.indexOf(item) > -1
+                    selectedValues.indexOf(item) > -1
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
@@ -92,7 +97,7 @@ export const FilterValuesSelect: React.FC<{
           </CommandGroup>
         </Command>
         <DialogFooter>
-          <Button onClick={() => handleToggleDialog(false)}>Done</Button>
+          <Button onClick={confirmFilterValues}>Done</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
