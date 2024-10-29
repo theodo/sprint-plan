@@ -1,22 +1,15 @@
 "use client";
 
-import { useState } from "react";
-
 import { ApplicableFilters } from "@components/notion/filters/ApplicableFilters";
 import { AppliedFilters } from "@components/notion/filters/AppliedFilters";
 
-import { NotionProperty } from "./types";
-
-type Filter = {
-  property: string;
-  values: string[];
-};
+import { Filter, NotionProperty } from "./types";
 
 export const DatabaseFilter: React.FC<{
   properties: NotionProperty[];
-}> = ({ properties }) => {
-  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([]);
-
+  appliedFilters: Filter[];
+  setAppliedFilters: (values: Filter[]) => void;
+}> = ({ properties, appliedFilters, setAppliedFilters }) => {
   const applyFilter = (property: string, values: string[]) => {
     if (appliedFilters.some((_af) => _af.property === property)) {
       setAppliedFilters(

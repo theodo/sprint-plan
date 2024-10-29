@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { DatabaseFilter } from "./DatabaseFilter";
 import { DatabaseSelect } from "./DatabaseSelect";
-import { NotionDatabase, NotionProperty } from "./types";
+import { Filter, NotionDatabase, NotionProperty } from "./types";
 
 export const PageContent: React.FC<{
   databases: NotionDatabase[];
@@ -11,8 +11,8 @@ export const PageContent: React.FC<{
   const [selectedDatabaseId, setSelectedDatabaseId] = useState<string | null>(
     null,
   );
-
   const [filterOptions, setFilterOptions] = useState<NotionProperty[]>([]);
+  const [appliedFilters, setAppliedFilters] = useState<Filter[]>([]);
 
   useEffect(() => {
     if (selectedDatabaseId === null) {
@@ -24,6 +24,7 @@ export const PageContent: React.FC<{
     setFilterOptions(
       databases.find((db) => db.id === selectedDatabaseId)?.properties ?? [],
     );
+    setAppliedFilters([]);
   }, [databases, selectedDatabaseId]);
 
   const databaseOptions = databases.map((_database) => ({
@@ -40,7 +41,11 @@ export const PageContent: React.FC<{
               options={databaseOptions}
               onSelect={(value) => setSelectedDatabaseId(value)}
             />
-            <DatabaseFilter properties={filterOptions} />
+            <DatabaseFilter
+              properties={filterOptions}
+              appliedFilters={appliedFilters}
+              setAppliedFilters={setAppliedFilters}
+            />
           </div>
         </div>
       </header>
