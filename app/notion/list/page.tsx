@@ -1,22 +1,17 @@
-import { Client, isFullDatabase } from "@notionhq/client";
+import { isFullDatabase } from "@notionhq/client";
 import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { NextPage } from "next";
-import { cookies } from "next/headers";
 
-import { NOTION_TOKEN_COOKIE_NAME } from "@/app/constants";
+import { getClient } from "@/lib/notion/client";
 
 import { PageContent } from "./PageContent";
 
 const ListDatabases: NextPage = async () => {
-  const notionToken = (await cookies()).get(NOTION_TOKEN_COOKIE_NAME)?.value;
-  if (notionToken === undefined) {
+  const notionClient = await getClient();
+
+  if (notionClient === null) {
     return <div>Notion token not found</div>;
   }
-
-  const notionClient = new Client({
-    auth: notionToken,
-  });
-
   const databases = await notionClient
     .search({
       query: "",
