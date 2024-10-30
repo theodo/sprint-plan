@@ -3,18 +3,26 @@ import { useEffect, useState } from "react";
 
 import { DatabaseFilter } from "./DatabaseFilter";
 import { DatabaseSelect } from "./DatabaseSelect";
+import { TicketsDependecyGraph } from "./TicketsDependencyGraph";
 import { Filter, NotionDatabase, NotionProperty } from "./types";
 
 export const PageContent: React.FC<{
   databases: NotionDatabase[];
 }> = ({ databases }) => {
+  const databaseOptions = databases.map((_database) => ({
+    id: _database.id,
+    name: _database.name,
+  }));
+
   const [selectedDatabaseId, setSelectedDatabaseId] = useState<string | null>(
-    null,
+    databaseOptions[0]?.id ?? null,
   );
   const [filterOptions, setFilterOptions] = useState<NotionProperty[]>([]);
   const [appliedFilters, setAppliedFilters] = useState<Filter[]>([]);
 
+  // Reset applied and available filters when database changes
   useEffect(() => {
+    setAppliedFilters([]);
     if (selectedDatabaseId === null) {
       setFilterOptions([]);
 
@@ -24,13 +32,7 @@ export const PageContent: React.FC<{
     setFilterOptions(
       databases.find((db) => db.id === selectedDatabaseId)?.properties ?? [],
     );
-    setAppliedFilters([]);
   }, [databases, selectedDatabaseId]);
-
-  const databaseOptions = databases.map((_database) => ({
-    id: _database.id,
-    name: _database.name,
-  }));
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -50,11 +52,10 @@ export const PageContent: React.FC<{
         </div>
       </header>
       <main className="flex-grow bg-gray-100 p-4">
-        <div className="container mx-auto">
-          <div className="bg-white border rounded-lg shadow-sm h-[calc(100vh-12rem)] flex items-center justify-center text-gray-500">
-            Canvas Area (Empty for now)
-          </div>
-        </div>
+        <TicketsDependecyGraph
+          databaseId={selectedDatabaseId}
+          appliedFilters={appliedFilters}
+        />
       </main>
     </div>
   );

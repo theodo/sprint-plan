@@ -12,7 +12,7 @@ import {
   useNodesState,
   useReactFlow,
 } from "@xyflow/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import "@xyflow/react/dist/style.css";
 
 import { Button } from "@components/ui/button";
@@ -33,10 +33,14 @@ const LayoutFlow: React.FC<{
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  useEffect(() => {
+    setNodes(initialNodes);
+    setEdges(initialEdges);
+  }, [initialNodes, initialEdges, setNodes, setEdges]);
+
   const onLayout = useCallback(
     (direction: "TB" | "LR") => {
       const layouted = getLayoutedElements(nodes, edges, { direction });
-
       setNodes([...layouted.nodes]);
       setEdges([...layouted.edges]);
 
@@ -90,8 +94,10 @@ export const DependencyGraph: React.FC<{
   });
 
   return (
-    <ReactFlowProvider>
-      <LayoutFlow initialNodes={initialNodes} initialEdges={initialEdges} />
-    </ReactFlowProvider>
+    <div className="h-full w-full">
+      <ReactFlowProvider>
+        <LayoutFlow initialNodes={initialNodes} initialEdges={initialEdges} />
+      </ReactFlowProvider>
+    </div>
   );
 };
