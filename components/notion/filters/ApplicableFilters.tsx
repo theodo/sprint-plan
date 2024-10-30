@@ -33,7 +33,11 @@ type AppliedFilter = {
 export const ApplicableFilters: React.FC<{
   applicableFilters: ApplicableFilter[];
   appliedFilters: AppliedFilter[];
-  updateAppliedFilters: (property: string, values: string[]) => void;
+  updateAppliedFilters: (
+    property: string,
+    type: SupportedTypes,
+    values: string[],
+  ) => void;
 }> = ({ applicableFilters, appliedFilters, updateAppliedFilters }) => {
   const [openPopover, setOpenPopover] = useState(false);
 
@@ -62,7 +66,7 @@ export const ApplicableFilters: React.FC<{
                     )?.values ?? []
                   }
                   updateAppliedFilters={(values) =>
-                    updateAppliedFilters(filter.property, values)
+                    updateAppliedFilters(filter.property, filter.type, values)
                   }
                 >
                   {filter.property}

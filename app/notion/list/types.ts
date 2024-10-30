@@ -14,5 +14,6 @@ export type SupportedTypes = "select" | "multi_select";
 
 export type Filter = {
   property: string;
+  type: SupportedTypes;
   values: string[];
 };

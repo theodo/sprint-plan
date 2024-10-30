@@ -3,24 +3,28 @@
 import { ApplicableFilters } from "@components/notion/filters/ApplicableFilters";
 import { AppliedFilters } from "@components/notion/filters/AppliedFilters";
 
-import { Filter, NotionProperty } from "./types";
+import { Filter, NotionProperty, SupportedTypes } from "./types";
 
 export const DatabaseFilter: React.FC<{
   properties: NotionProperty[];
   appliedFilters: Filter[];
   setAppliedFilters: (values: Filter[]) => void;
 }> = ({ properties, appliedFilters, setAppliedFilters }) => {
-  const applyFilter = (property: string, values: string[]) => {
+  const applyFilter = (
+    property: string,
+    type: SupportedTypes,
+    values: string[],
+  ) => {
     if (appliedFilters.some((_af) => _af.property === property)) {
       setAppliedFilters(
         appliedFilters.map((filter) =>
-          filter.property === property ? { property, values } : filter,
+          filter.property === property ? { type, property, values } : filter,
         ),
       );
 
       return;
     }
-    setAppliedFilters([...appliedFilters, { property, values }]);
+    setAppliedFilters([...appliedFilters, { type, property, values }]);
   };
 
   const removeFilter = (property: string) => {
