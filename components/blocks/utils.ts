@@ -4,10 +4,9 @@ import { Edge, Node } from "@xyflow/react";
 export const getLayoutedElements = (
   nodes: Node[],
   edges: Edge[],
-  options: { direction: "TB" | "LR" },
 ): { nodes: Node[]; edges: Edge[] } => {
   const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-  g.setGraph({ rankdir: options.direction });
+  g.setGraph({ rankdir: "TB" });
 
   edges.forEach((edge) => g.setEdge(edge.source, edge.target));
   nodes.forEach((node) =>

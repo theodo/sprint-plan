@@ -40,18 +40,15 @@ const LayoutFlow: React.FC<{
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setNodes, setEdges]);
 
-  const onLayout = useCallback(
-    (direction: "TB" | "LR") => {
-      const layouted = getLayoutedElements(nodes, edges, { direction });
-      setNodes([...layouted.nodes]);
-      setEdges([...layouted.edges]);
+  const autoLayout = useCallback(() => {
+    const layouted = getLayoutedElements(nodes, edges);
+    setNodes([...layouted.nodes]);
+    setEdges([...layouted.edges]);
 
-      window.requestAnimationFrame(async () => {
-        await fitView();
-      });
-    },
-    [nodes, edges, setNodes, setEdges, fitView],
-  );
+    window.requestAnimationFrame(async () => {
+      await fitView();
+    });
+  }, [nodes, edges, setNodes, setEdges, fitView]);
 
   const onConnect = useCallback<OnConnect>(
     async (params) => {
@@ -78,8 +75,7 @@ const LayoutFlow: React.FC<{
       fitView
     >
       <Panel position="top-right" className="flex gap-2">
-        <Button onClick={() => onLayout("TB")}>vertical layout</Button>
-        <Button onClick={() => onLayout("LR")}>horizontal layout</Button>
+        <Button onClick={autoLayout}>Auto layout</Button>
       </Panel>
       <Controls />
     </ReactFlow>
