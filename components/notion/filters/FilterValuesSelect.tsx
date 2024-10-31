@@ -81,7 +81,7 @@ export const FilterValuesSelect: React.FC<{
         <Command className="rounded-lg border shadow-md">
           <CommandInput placeholder="Search items..." />
           <CommandEmpty>No items found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="max-h-[350px] overflow-scroll">
             {options.map((item) => (
               <CommandItem key={item} onSelect={() => toggleValue(item)}>
                 <Check
