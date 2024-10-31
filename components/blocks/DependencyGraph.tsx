@@ -5,6 +5,7 @@ import {
   Edge,
   Node,
   OnConnect,
+  OnEdgesDelete,
   Panel,
   ReactFlow,
   ReactFlowProvider,
@@ -17,6 +18,7 @@ import "@xyflow/react/dist/style.css";
 
 import { Button } from "@components/ui/button";
 
+import { addBlockingTicket, removeBlockingTicket } from "./services";
 import { getLayoutedElements } from "./utils";
 
 export type Ticket = {
@@ -52,11 +54,18 @@ const LayoutFlow: React.FC<{
   );
 
   const onConnect = useCallback<OnConnect>(
-    (params) => {
+    async (params) => {
       setEdges((_edges) => addEdge(params, _edges));
+      await addBlockingTicket(params.target, params.source);
     },
     [setEdges],
   );
+
+  const onEdgesDelete = useCallback<OnEdgesDelete>((params) => {
+    params.forEach(async (edge) => {
+      await removeBlockingTicket(edge.target, edge.source);
+    });
+  }, []);
 
   return (
     <ReactFlow
@@ -65,6 +74,7 @@ const LayoutFlow: React.FC<{
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
+      onEdgesDelete={onEdgesDelete}
       fitView
     >
       <Panel position="top-right" className="flex gap-2">
