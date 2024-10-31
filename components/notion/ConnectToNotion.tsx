@@ -6,7 +6,7 @@ export const ConnectToNotion: React.FC = () => {
   return (
     <div>
       <Link
-        className={buttonVariants({ variant: "outline" })}
+        className={buttonVariants({ variant: "default" })}
         href={process.env.NOTION_AUTHORIZATION_URL ?? ""}
       >
         Connect to your Notion workspace
