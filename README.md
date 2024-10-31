@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ticket Dependency Graph
 
-## Getting Started
+Use this tool with your kanban to visualize the dependencies between your tickets.
+**Supported tools**
 
-First, run the development server:
+- Notion
 
-```bash
+## Installation
+
+```
+git clone https://github.com/theodo/sprint-plan.git
+cd sprint-plan
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Development server should be running on `http://localhost:3000/`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+***TODO: Setup Vercel Deployment***
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+### With Notion
+![Screenshot of Notion Dependence Graph](doc-assets/notion-interface.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Authorize the application to access the pages/databases of your choice
+- Choose a database and apply a filter to fetch the tickets from your database
+    - Fetch requests are not fired if the filter is empty
+- Drag and drop from the source handle (bottom) to the target handle (top) to create a dependency between 2 tickets
+- The dependency will be stored in a property "⚙️ Blocking Tickets" of the ticket
+- To delete a dependency, simply click on a link and press backspace
+- You can directly modify the dependencies within Notion by manually updating the property "⚙️ Blocking Tickets"
+- Use the button "Auto layout" to automatically organize the tickets in a top-down dependency tree
