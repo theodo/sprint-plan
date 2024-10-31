@@ -21,9 +21,6 @@ export const TicketsDependecyGraph: React.FC<TicketsDependecyGraphProps> = ({
     if (databaseId === null) {
       return;
     }
-    if (appliedFilters.length === 0) {
-      return;
-    }
     const fetchTickets = async () => {
       const _tickets = (await fetch("/api/notion/tickets", {
         method: "POST",

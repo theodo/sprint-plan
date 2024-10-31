@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
 
   const queryResult = await queryDatabase(notionClient, databaseId, filter);
 
-  const tickets = parseDatabaseQuery(queryResult);
+  const tickets = await parseDatabaseQuery(databaseId, queryResult);
 
   return NextResponse.json(tickets);
 };
