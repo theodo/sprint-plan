@@ -18,7 +18,9 @@ export const TicketsDependecyGraph: React.FC<TicketsDependecyGraphProps> = ({
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
   useEffect(() => {
-    if (databaseId === null) {
+    if (databaseId === null || appliedFilters.length === 0) {
+      setTickets([]);
+
       return;
     }
     const fetchTickets = async () => {
